@@ -45,6 +45,7 @@ def shutdown(droneStatus):
         return False
 
 while doLoop == True:
+    pygame.event.pump()
     #Retrieve feed from Tello
     frame_read = tello.get_frame_read()
     liveFrame = frame_read.frame
