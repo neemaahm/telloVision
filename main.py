@@ -13,7 +13,7 @@ controls.connect_drone(tello)
 print("Tello Battery: " + str(tello.get_battery()))
 while controls.do_loop:
     pygame.event.pump()
-    #myGUI.doVideoFeed(tello)
+    myGUI.doVideoFeed(tello)
     controls.take_inputs()
     controls.check_shutdown(tello)
     myGUI.drawRectangles(controls.stick_values)

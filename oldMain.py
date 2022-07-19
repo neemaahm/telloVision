@@ -79,7 +79,15 @@ while doLoop == True:
     horMultiplier = 60
     rotMultiplier = 90
     vertMultiplier = 20
-    if flyState:
+    if flyState == False:
+        if buttonValues[1] == True:
+            tello.takeoff()
+            flyState = True
+    else:
+        if buttonValues[0] == True:
+            tello.land()
+        if buttonValues[3] == True:
+            print("Tello Battery: " + str(tello.get_battery()))
         #Left-Right Translation
         if stickValues[0] > 0.4:
             tello.move_right(int(stickValues[0] * horMultiplier))
