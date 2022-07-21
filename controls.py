@@ -3,7 +3,7 @@
 import cv2
 import pygame
 
-#This class takes care of all things GUI related for the Tello Drone project
+#This class takes care of all things controls related for the Tello Drone project
 class controls:
     def __init__(self):
         # Connect Controller
@@ -22,6 +22,7 @@ class controls:
     def connect_drone(self, tello_drone):
         # Connect to Tello
         tello_drone.connect()
+        tello_drone.streamoff()
         tello_drone.streamon()
         print("Tello Battery: " + str(tello_drone.get_battery()))
 

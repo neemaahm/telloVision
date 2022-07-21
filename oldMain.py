@@ -29,6 +29,7 @@ doLoop = True
 #Connect to Tello
 tello = Tello()
 tello.connect()
+tello.streaoff()
 tello.streamon()
 print("Tello Battery: " + str(tello.get_battery()))
 
