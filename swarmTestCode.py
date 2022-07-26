@@ -1,20 +1,17 @@
 from djitellopy import TelloSwarm
 
 swarm = TelloSwarm.fromIps([
-    "192.168.0.196"
+    "192.168.178.48",
+    "192.168.178.69",
+    "192.168.178.196"
 ])
 
 swarm.connect()
 swarm.takeoff()
 
 # run in parallel on all tellos
-# swarm.move_up(100)
-#
-# # run by one tello after the other
-# swarm.sequential(lambda i, tello: tello.move_forward(i * 20 + 20))
-#
-# making each tello do something unique in parallel
-# swarm.parallel(lambda i, tello: tello.move_left(i * 100 + 20))
+# 同时在所有Tello上执行
+swarm.move_up(100)
 
 swarm.land()
 swarm.end()
