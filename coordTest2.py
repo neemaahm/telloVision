@@ -9,3 +9,4 @@ Coords = Coordinates.Coordinates(g0_r, gxa_r)
 p_pos_g = np.array([[0.2305],[-2.6275],[-1.7106]])
 print(Coords.global_pos(p_pos_g))
 
+#please git work
