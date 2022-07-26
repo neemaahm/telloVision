@@ -1,8 +1,6 @@
 #Neema Ahmadian - Collab - July 2022
 
-import triad_openvr
-import time
-import sys
+
 import numpy as np
 
 #This class handles all coordinates in the telloVision project.
@@ -62,4 +60,4 @@ class Coordinates:
         p_g = np.matmul(self.transforms["tracker"], p_r)
         return np.delete(p_g, 3, 0)
 
-    def global_pos_drone(self, )
+    # def global_pos_drone(self, )
