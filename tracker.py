@@ -23,22 +23,17 @@ doLoop = True
 
 if interval:
     while(doLoop):
+        doLoop = False
         start = time.time()
-        txt_raw = "Raw Values: "
+        txt = ""
         for each in v.devices["tracker_1"].get_pose_euler():
-            txt_raw += "%.4f" % each
-            txt_raw += " "
-
-        
+            txt += "%.4f" % each
+            txt += " "
+        print("\r" + txt, end="")
         pose_r = v.devices["tracker_1"].get_pose_euler()
         tracker_pos_r = np.array([[pose_r[0]], [pose_r[2]], [pose_r[1]]])
-        tracker_pos_g = Coords.global_pos(tracker_pos_r)
-        txt_global = "  |  Global Values: "
-        txt_global += "%.4f" % tracker_pos_g[0] + " "
-        txt_global += "%.4f" % tracker_pos_g[1] + " "
-        txt_global += "%.4f" % tracker_pos_g[2] + " "
-
-        print("\r" + txt_raw + txt_global, end="")
+        print(tracker_pos_r)
+        print(Coords.global_pos(tracker_pos_r))
         sleep_time = interval-(time.time()-start)
         if sleep_time>0:
             time.sleep(sleep_time)
