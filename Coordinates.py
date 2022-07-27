@@ -44,7 +44,7 @@ class Coordinates:
         gxa_g = np.matmul(self.transforms["tracker"], np.vstack((gxa_r, np.array([1]))))
 
     # Input format: np.array([x], [y], [z])
-    # m0_g: mission pad origin; x,y,z given in the global coordinate frame
+    #     m0_g: mission pad origin; x,y,z given in the global coordinate frame
     def init_global_mission_pad(self, pad_id, m0_g):
         left_matrix = np.vstack([m0_g, np.array([1])])
         right_matrix = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1], [0, 0, 0]])
@@ -60,4 +60,12 @@ class Coordinates:
         p_g = np.matmul(self.transforms["tracker"], p_r)
         return np.delete(p_g, 3, 0)
 
-    # def global_pos_drone(self, )
+    # Input format: np.array([x], [y], [z])
+    #     drone_m: drone position; x,y,z given in the mission pad coordinate frame
+    #     pad_id: pad id integer
+    def global_pos_drone(self, pad_id, drone_m):
+        pad_key = "pad_" + str(pad_id)
+        drone_m = np.vstack((drone_m, np.array([1])))
+        drone_g = np.matmul(self.transforms[pad_key], drone_m)
+        return np.delete(drone_g, 3, 0)
+
