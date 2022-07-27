@@ -2,9 +2,6 @@ import triad_openvr
 import numpy as np
 import Coordinates
 
-
-
-
 g0_r = np.array([[2.6030], [-2.4606], [-1.6157]])
 gxa_r = np.array([[0.3805], [-5.3250], [-1.5978]])
 
