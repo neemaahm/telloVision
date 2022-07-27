@@ -45,9 +45,9 @@ class Coordinates:
     # Input format: np.array([x], [y], [z])
     #     m0_g: mission pad origin; x,y,z given in the global coordinate frame
     def init_global_mission_pad(self, pad_id, m0_g):
-        left_matrix = np.vstack([m0_g, np.array([1])])
-        right_matrix = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1], [0, 0, 0]])
         pad_key = "pad_" + str(pad_id)
+        left_matrix = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1], [0, 0, 0]])
+        right_matrix = np.vstack([m0_g, np.array([1])])
         self.transforms[pad_key] = np.hstack([left_matrix, right_matrix])
 
     # Input format: np.array([x], [y], [z])
