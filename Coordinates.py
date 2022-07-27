@@ -1,6 +1,5 @@
 #Neema Ahmadian - Collab - July 2022
 
-
 import numpy as np
 
 #This class handles all coordinates in the telloVision project.

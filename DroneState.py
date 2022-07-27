@@ -24,12 +24,14 @@ class DroneState:
         return self.drone_history
 
     # Connect Individual Tello Drone
-    def connect_drone(self, tello_drone):
+    def connect_drone(self, tello_drone, takeoff = True):
         # Connect to Tello
         tello_drone.connect()
-        tello_drone.streamoff()
-        tello_drone.streamon()
         print("Tello Battery: " + str(tello_drone.get_battery()))
+        tello_drone.enable_mission_pads()
+        tello_drone.set_mission_pad_detection_direction(2)
+        if takeoff:
+            tello_drone.takeoff()
 
     # Shutdown Sequence
     def drone_shutdown(self, tello_drone):
@@ -60,5 +62,5 @@ class DroneState:
         if not self.read_pos(tello_drone, Coords):
             self.drone_state = np.array([[self.drone_state[0][0] + x],
                                          [self.drone_state[0][0] + y],
-                                         [self.drone_state[0][0]] + z])
+                                         [self.drone_state[0][0] + z]])
 
