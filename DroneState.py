@@ -56,9 +56,13 @@ class DroneState:
             self.drone_history = np.dstack((self.drone_history, self.drone_state))
             return True
 
-    #moves the tello drone a certain amount in the x, y, and z direction relative to its current position
+    # Moves the tello drone a certain amount in the x, y, and z direction relative to its current position
+    # Input Units (x,y,z): meters
     def move_xyz(self, Coords, tello_drone, x, y, z, speed=20):
-        tello_drone.go_xyz_speed(x, y, z, speed)
+        x_cm = x*100.
+        y_cm = y*100.
+        z_cm = z*100.
+        tello_drone.go_xyz_speed(x_cm, y_cm, z_cm, speed)
         if not self.read_pos(tello_drone, Coords):
             self.drone_state = np.array([[self.drone_state[0][0] + x],
                                          [self.drone_state[1][0] + y],
