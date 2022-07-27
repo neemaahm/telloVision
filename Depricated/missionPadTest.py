@@ -7,7 +7,7 @@ tello.connect()
 # configure drone
 # 设置无人机
 tello.enable_mission_pads()
-tello.set_mission_pad_detection_direction(1)  # forward detection only  只识别前方
+tello.set_mission_pad_detection_direction(2)
 
 print(tello.get_battery())
 
