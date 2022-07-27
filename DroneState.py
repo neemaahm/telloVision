@@ -61,6 +61,6 @@ class DroneState:
         tello_drone.go_xyz_speed(x, y, z, speed)
         if not self.read_pos(tello_drone, Coords):
             self.drone_state = np.array([[self.drone_state[0][0] + x],
-                                         [self.drone_state[0][0] + y],
-                                         [self.drone_state[0][0] + z]])
+                                         [self.drone_state[1][0] + y],
+                                         [self.drone_state[2][0] + z]])
 
