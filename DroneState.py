@@ -6,6 +6,7 @@ import Coordinates
 # This class handles controlling and retrieving state from a single Tello EDU drone
 class DroneState:
 
+    # initial_drone_pos Input Format: np.array([[x], [y], [z]])
     def __init__(self, initial_drone_pos = np.array([[0.],[0.],[0.]])):
         self.drone_state = initial_drone_pos.astype(float)
         self.drone_history = initial_drone_pos.astype(float)
@@ -58,11 +59,10 @@ class DroneState:
             print(m_z)
             drone_m = np.array([[m_x], [m_y], [m_z]])
             self.drone_state = Coords.global_drone_pos(id, drone_m)
-            self.drone_history = np.dstack((self.drone_history, self.drone_state))
             return True
 
     # Moves the tello drone a certain amount in the x, y, and z direction relative to its current position
-    # Input Units (x,y,z): meters
+    # Argument Units (x,y,z): meters      speed: cm/s
     def move_xyz_relative(self, tello_drone, Coords, x, y, z, speed=20):
         x_cm = int(x*100)
         y_cm = int(y*100)
@@ -72,9 +72,10 @@ class DroneState:
             self.drone_state = np.array([[self.drone_state[0][0] + x_cm/100.],
                                          [self.drone_state[1][0] + y_cm/100.],
                                          [self.drone_state[2][0] + z_cm/100.]])
+        self.drone_history = np.dstack((self.drone_history, self.drone_state))
 
     # Moves the tello drone to point p_g in the global reference frame
-    #     p_g Input Format: np.array([[x], [y], [z]])       Units: meters
+    #     p_g Argument Format: np.array([[x], [y], [z]])       Units: meters
     def move_xyz_global(self, tello_drone, Coords, p_g, speed=20):
         # delta_g: delta between p_g and drone_g in the global frame (units: m)
         delta_g = Coords.global_pos_drone_relative(p_g, self.drone_state)
@@ -84,4 +85,5 @@ class DroneState:
         tello_drone.go_xyz_speed(x_cm, y_cm, z_cm, speed)
         if not self.read_pos(tello_drone, Coords):
             self.drone_state = self.drone_state + delta_g
+        self.drone_history = np.dstack((self.drone_history, self.drone_state))
 

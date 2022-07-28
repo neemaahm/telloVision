@@ -8,7 +8,7 @@ class Coordinates:
     def __init__(self):
         self.transforms = {}
     
-    # Input format: np.array([[x], [y], [z]])
+    # Argument Format: np.array([[x], [y], [z]])
     # g0_r: global origin; x,y,z given in the relative coordinate frame
     # gxa_r: any second point along the global x-axis; x, y, z given in the relative coordinate frame
     def init_global_tracker(self, g0_r, gxa_r):
@@ -39,10 +39,8 @@ class Coordinates:
         wide_matrix = np.hstack([rotation_matrix, translation_matrix])
         self.transforms["tracker"] = np.vstack([wide_matrix, [0.0, 0.0, 0.0, 1.0]])
 
-        g0_g = np.matmul(self.transforms["tracker"], np.vstack((g0_r, np.array([1]))))
-        gxa_g = np.matmul(self.transforms["tracker"], np.vstack((gxa_r, np.array([1]))))
 
-    # Input format: np.array([[x], [y], [z]])
+    # Argument Format: np.array([[x], [y], [z]])
     #     m0_g: mission pad origin; x,y,z given in the global coordinate frame
     def init_global_mission_pad(self, pad_id, m0_g):
         pad_key = "pad_" + str(pad_id)
