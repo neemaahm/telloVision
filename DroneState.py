@@ -22,7 +22,7 @@ class DroneState:
         return self.drone_history
 
     # Connect Individual Tello Drone
-    def connect_drone(self, tello_drone, takeoff = True):
+    def connect_drone(self, tello_drone, takeoff=True):
         # Connect to Tello
         tello_drone.connect()
         print("Tello Battery: " + str(tello_drone.get_battery()))
@@ -31,7 +31,6 @@ class DroneState:
         if takeoff:
             tello_drone.takeoff()
             z_g = tello_drone.get_height()/100.
-            print(z_g)
             self.drone_state[2][0] = z_g
             self.drone_history = np.dstack((self.drone_history, self.drone_state))
 
@@ -58,13 +57,13 @@ class DroneState:
             print(m_y)
             print(m_z)
             drone_m = np.array([[m_x], [m_y], [m_z]])
-            self.drone_state = Coords.global_pos_drone(id, drone_m)
+            self.drone_state = Coords.global_drone_pos(id, drone_m)
             self.drone_history = np.dstack((self.drone_history, self.drone_state))
             return True
 
     # Moves the tello drone a certain amount in the x, y, and z direction relative to its current position
     # Input Units (x,y,z): meters
-    def move_xyz(self, Coords, tello_drone, x, y, z, speed=20):
+    def move_xyz_relative(self, tello_drone, Coords, x, y, z, speed=20):
         x_cm = int(x*100)
         y_cm = int(y*100)
         z_cm = int(z*100)
@@ -73,4 +72,16 @@ class DroneState:
             self.drone_state = np.array([[self.drone_state[0][0] + x_cm/100.],
                                          [self.drone_state[1][0] + y_cm/100.],
                                          [self.drone_state[2][0] + z_cm/100.]])
+
+    # Moves the tello drone to point p_g in the global reference frame
+    #     p_g Input Format: np.array([[x], [y], [z]])       Units: meters
+    def move_xyz_global(self, tello_drone, Coords, p_g, speed=20):
+        # delta_g: delta between p_g and drone_g in the global frame (units: m)
+        delta_g = Coords.global_pos_drone_relative(p_g, self.drone_state)
+        x_cm = int(delta_g[0][0] * 100)
+        y_cm = int(delta_g[1][0] * 100)
+        z_cm = int(delta_g[2][0] * 100)
+        tello_drone.go_xyz_speed(x_cm, y_cm, z_cm, speed)
+        if not self.read_pos(tello_drone, Coords):
+            self.drone_state = self.drone_state + delta_g
 

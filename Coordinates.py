@@ -8,7 +8,7 @@ class Coordinates:
     def __init__(self):
         self.transforms = {}
     
-    # Input format: np.array([x], [y], [z])
+    # Input format: np.array([[x], [y], [z]])
     # g0_r: global origin; x,y,z given in the relative coordinate frame
     # gxa_r: any second point along the global x-axis; x, y, z given in the relative coordinate frame
     def init_global_tracker(self, g0_r, gxa_r):
@@ -42,7 +42,7 @@ class Coordinates:
         g0_g = np.matmul(self.transforms["tracker"], np.vstack((g0_r, np.array([1]))))
         gxa_g = np.matmul(self.transforms["tracker"], np.vstack((gxa_r, np.array([1]))))
 
-    # Input format: np.array([x], [y], [z])
+    # Input format: np.array([[x], [y], [z]])
     #     m0_g: mission pad origin; x,y,z given in the global coordinate frame
     def init_global_mission_pad(self, pad_id, m0_g):
         pad_key = "pad_" + str(pad_id)
@@ -50,7 +50,7 @@ class Coordinates:
         right_matrix = np.vstack([m0_g, np.array([1])])
         self.transforms[pad_key] = np.hstack([left_matrix, right_matrix])
 
-    # Input format: np.array([x], [y], [z])
+    # Input format: np.array([[x], [y], [z]])
     #     p_r: arbitrary point in the tracking area; x,y,z given in the relative coordinate frame
     # Output:
     #     p_g: p_r expressed in the global coordinate frame
@@ -59,12 +59,19 @@ class Coordinates:
         p_g = np.matmul(self.transforms["tracker"], p_r)
         return np.delete(p_g, 3, 0)
 
-    # Input format: np.array([x], [y], [z])
+    # Input format: np.array([[x], [y], [z]])
     #     drone_m: drone position; x,y,z given in the mission pad coordinate frame
     #     pad_id: pad id integer
-    def global_pos_drone(self, pad_id, drone_m):
+    def global_drone_pos(self, pad_id, drone_m):
         pad_key = "pad_" + str(pad_id)
         drone_m = np.vstack((drone_m, np.array([1])))
         drone_g = np.matmul(self.transforms[pad_key], drone_m)
         return np.delete(drone_g, 3, 0)
+
+    #This function transforms a global coordinate to the drone's own coordinate frame
+    def global_pos_drone_relative(self, p_g, drone_g):
+        # delta between p_g and drone_g in the global frame (units: m)
+        delta_g = p_g - drone_g
+        return delta_g
+
 

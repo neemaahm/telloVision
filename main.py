@@ -15,14 +15,12 @@ drone_0_g = np.array([[1],[1],[0]])
 myDrone = DroneState.DroneState(drone_0_g)
 tello = Tello()
 
-myDrone.connect_drone(tello, False)
+myDrone.connect_drone(tello)
 
-while True:
-    myDrone.read_pos(tello, Coords)
-    print(myDrone.drone_state)
-    time.sleep(4)
+p_g = np.array([[2.5], [2], [1]])
 
-# myDrone.move_xyz(Coords, tello, 1, 1, 0)
-# print(myDrone.drone_state)
+# myDrone.move_xyz_relative(tello, Coords, 1, 1, 0)
+myDrone.move_xyz_global(tello, Coords, p_g)
+print(myDrone.drone_state)
 
-# myDrone.drone_shutdown(tello)
+myDrone.drone_shutdown(tello)
