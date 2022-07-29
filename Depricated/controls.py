@@ -63,6 +63,9 @@ class controls:
             self.stick_values[0] = 0
         if abs(self.stick_values[1]) < 0.1:
             self.stick_values[1] = 0
+    
+    def get_button_values(self):
+        return self.button_values
 
     #Move Tello
     def move_tello(self, tello_drone, hor_mult, rot_mult, vert_mult):

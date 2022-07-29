@@ -54,9 +54,6 @@ class DroneState:
             m_x = tello_drone.get_mission_pad_distance_x()/100
             m_y = tello_drone.get_mission_pad_distance_y()/100
             m_z = tello_drone.get_mission_pad_distance_z()/100
-            print(m_x)
-            print(m_y)
-            print(m_z)
             drone_m = np.array([[m_x], [m_y], [m_z]])
             self.drone_state = Coords.global_drone_pos(id, drone_m)
             return True
@@ -76,6 +73,7 @@ class DroneState:
 
     # Moves the tello drone to point p_g in the global reference frame
     #     p_g Argument Format: np.array([[x], [y], [z]])       Units: meters
+    #     speed Argument: max value 100, min value 10     Units: cm/s
     def move_xyz_global(self, tello_drone, Coords, p_g, speed=20):
         # delta_g: delta between p_g and drone_g in the global frame (units: m)
         delta_g = Coords.global_pos_drone_relative(p_g, self.drone_state)
