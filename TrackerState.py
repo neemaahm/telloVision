@@ -10,10 +10,19 @@ class TrackerState:
     # Argument Format: np.array([[x], [y], [z]])
     # g0_r: global origin; x,y,z given in the relative coordinate frame
     # gxa_r: any second point along the global x-axis; x, y, z given in the relative coordinate frame
-    def __init__(self, g0_r, gxa_r):
+    def __init__(self):
         self.Coords = Coordinates.Coordinates()
-        self.Coords.init_global_tracker(g0_r, gxa_r)
         self.track = triad_openvr.triad_openvr()
+
+    def set_global_coords(self, g0_r, gxa_r):
+        self.Coords.init_global_tracker(g0_r, gxa_r)
+
+    #THIS FUNCTION IS UNFINISHED
+    def auto_set_global_coords(self):
+        input("Place the tracker at the global origin then press enter.")
+        pose_r = self.track.devices["tracker_1"].get_pose_euler()
+        tracker_pos_r = np.array([[pose_r[0]], [pose_r[2]], [pose_r[1]]])
+        # g0_r =
 
     # This function returns the tracker position in the global coordinate frame
     # Output Format: np.array([[x],[y],[z]])
